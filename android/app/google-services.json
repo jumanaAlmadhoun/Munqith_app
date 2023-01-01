@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "276323675003",
+    "project_id": "munqith-c4ca8",
+    "storage_bucket": "munqith-c4ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276323675003:android:915ab94b283f1c186aabde",
+        "android_client_info": {
+          "package_name": "com.example.munqith_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276323675003-bshci5jp493ura96nqd9lit9tvpsrpns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2RbnB5GMsbAnPjUrDXim9jqJmfFf-ETo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276323675003-bshci5jp493ura96nqd9lit9tvpsrpns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
