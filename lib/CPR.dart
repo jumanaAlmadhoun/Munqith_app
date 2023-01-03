@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,26 +9,35 @@ class CPR extends StatefulWidget {
 }
 
 class _CPRState extends State<CPR> {
-  VideoPlayerController? videoPlayerController;
   //ChewieController? chewieController;
-  List video = [];
+  VideoPlayerController? videoPlayerController;
+  List step = ["1", "2", "3", "4", "5"];
+  List _video = ["assets/images/test.mp4", "assets/images/test2.mp4"];
+  List CPR = [
+    "check for breathing",
+    "Put the person on a flat service, kneel next to the person"
+  ];
 
-  _initData() async {
+  int index = 0;
+
+  /* _initData() async {
     await DefaultAssetBundle.of(context)
-        .loadString("lib/video.json")
+        .loadString("json/video/video.json")
         .then((value) {
       setState(
         () {
-          video = json.decode(value);
+          _video = json.decode(value);
         },
       );
     });
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    _initData();
+
+    // _initData();
+    test(index);
   }
 
   @override
@@ -60,28 +67,28 @@ class _CPRState extends State<CPR> {
         body: Column(children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Align(
                 alignment: AlignmentDirectional(-0.5, 0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 10),
                   child: Text(
-                    'Step 1',
+                    "Step " + step[index],
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ],
           ),
-          _chewieVideoPlayer(),
+          run(),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 29, 0, 29),
+            padding: EdgeInsetsDirectional.fromSTEB(0, 29, 0, 29),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
-                  'Press 30 times on \nthe patient chest',
+                  CPR[0],
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -104,9 +111,7 @@ class _CPRState extends State<CPR> {
                         color: Colors.black,
                         size: 50,
                       ),
-                      onPressed: () {
-                        print('IconButton pressed ...');
-                      },
+                      onPressed: () {},
                     ),
                   ),
                   IconButton(
@@ -116,7 +121,10 @@ class _CPRState extends State<CPR> {
                       size: 50,
                     ),
                     onPressed: () {
-                      print('IconButton pressed ...');
+                      setState(() {
+                        index++;
+                        test(index);
+                      });
                     },
                   ),
                 ],
@@ -126,8 +134,27 @@ class _CPRState extends State<CPR> {
         ]));
   }
 
-  _playView(BuildContext context) {}
-  Widget _chewieVideoPlayer() {
+  test(int num) {
+    videoPlayerController = VideoPlayerController.asset(_video[num])
+      ..initialize().then((_) {
+        setState(() {});
+        videoPlayerController!.play();
+        videoPlayerController!.setLooping(true);
+      });
+  }
+
+  Widget run() {
+    return SizedBox(
+      height: 300,
+      child: videoPlayerController!.value.isInitialized
+          ? AspectRatio(
+              aspectRatio: videoPlayerController!.value.aspectRatio,
+              child: VideoPlayer(videoPlayerController!))
+          : Text("j"),
+    );
+  }
+
+  /* Widget _chewieVideoPlayer() {
     return SizedBox(
       height: 300,
       child: videoPlayerController!.value.isInitialized
@@ -137,5 +164,5 @@ class _CPRState extends State<CPR> {
             )
           : Container(),
     );
-  }
+  }*/
 }
