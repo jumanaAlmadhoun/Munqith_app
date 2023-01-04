@@ -11,11 +11,22 @@ class CPR extends StatefulWidget {
 class _CPRState extends State<CPR> {
   //ChewieController? chewieController;
   VideoPlayerController? videoPlayerController;
-  List step = ["1", "2", "3", "4", "5"];
-  List _video = ["assets/images/test.mp4", "assets/images/test2.mp4"];
+  List step = ["1", "2", "3", "4", "5", "6"];
+  List _video = [
+    "assets/images/test2.mp4",
+    "assets/images/STEP2.mp4",
+    "assets/images/STEP3.mp4",
+    "assets/images/STEP4.mp4",
+    "assets/images/STEP5.mp4",
+    "assets/images/STEP6.mp4",
+  ];
   List CPR = [
-    "check for breathing",
-    "Put the person on a flat service, kneel next to the person"
+    "Look around and make sure the area is safe, shake them, and ask them Are you ok?, Shout for help",
+    "Tilt head back & Check for breathing",
+    "Call an ambulance",
+    "place the heal of one hand on the chest and place the other hand above it and interlock your fingers",
+    "Press down hard and fast. Start the compression by pushing the chest down 5cm 30 times fast",
+    "Give two rescue breaths (block the nose and tilt the head back. Cover his/her mouth with yours and exhale).",
   ];
 
   int index = 0;
@@ -37,7 +48,7 @@ class _CPRState extends State<CPR> {
     super.initState();
 
     // _initData();
-    test(index);
+    test();
   }
 
   @override
@@ -87,11 +98,16 @@ class _CPRState extends State<CPR> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  CPR[0],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+                Flexible(
+                    child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                  child: Text(
+                    CPR[index],
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                )),
               ],
             ),
           ),
@@ -123,7 +139,7 @@ class _CPRState extends State<CPR> {
                     onPressed: () {
                       setState(() {
                         index++;
-                        test(index);
+                        test();
                       });
                     },
                   ),
@@ -134,8 +150,8 @@ class _CPRState extends State<CPR> {
         ]));
   }
 
-  test(int num) {
-    videoPlayerController = VideoPlayerController.asset(_video[num])
+  test() {
+    videoPlayerController = VideoPlayerController.asset(_video[index])
       ..initialize().then((_) {
         setState(() {});
         videoPlayerController!.play();
