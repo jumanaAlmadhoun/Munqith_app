@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:munqith_app/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pre_loginpage.dart';
@@ -178,6 +180,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             sharedPreferences
                                 .setString('email', email)
                                 .then((_) {
+                              FirebaseAuth.instance.signInWithEmailAndPassword(
+                                  email: email, password: password);
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

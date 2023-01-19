@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player/video_player.dart';
+import 'package:alan_voice/alan_voice.dart';
 
 class CPR extends StatefulWidget {
   const CPR({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class _CPRState extends State<CPR> {
   VideoPlayerController? videoPlayerController;
   List step = ["1", "2", "3", "4", "5", "6"];
   List _video = [
-    "assets/images/test2.mp4",
+    "assets/images/STEP1.mp4",
     "assets/images/STEP2.mp4",
     "assets/images/STEP3.mp4",
     "assets/images/STEP4.mp4",
@@ -29,37 +31,28 @@ class _CPRState extends State<CPR> {
     "Give two rescue breaths (block the nose and tilt the head back. Cover his/her mouth with yours and exhale).",
   ];
 
-  int index = 0;
-
-  /* _initData() async {
-    await DefaultAssetBundle.of(context)
-        .loadString("json/video/video.json")
-        .then((value) {
-      setState(
-        () {
-          _video = json.decode(value);
-        },
-      );
-    });
-  }*/
+  static int index = 0;
+  bool left = false;
+  bool right = true;
 
   @override
   void initState() {
     super.initState();
-
-    // _initData();
     test();
+    _MyHomePageState();
+
+    //AlanSpeech();
   }
 
   @override
   void dispose() {
     videoPlayerController!.dispose();
-    //chewieController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    //AlanSpeech();
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -84,7 +77,7 @@ class _CPRState extends State<CPR> {
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 10),
                   child: Text(
-                    "Step " + step[index],
+                    "Step " + step[index] + "/" + step.length.toString(),
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -122,24 +115,36 @@ class _CPRState extends State<CPR> {
                   Align(
                     alignment: const AlignmentDirectional(0, 0),
                     child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_left_outlined,
+                      icon: Icon(
+                        left ? Icons.arrow_left_outlined : null,
                         color: Colors.black,
                         size: 50,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          index--;
+                          test();
+                          index == 0 ? left = false : left = true;
+                        });
+                      },
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(
-                      Icons.arrow_right_outlined,
+                    icon: Icon(
+                      right ? Icons.arrow_right_outlined : null,
                       color: Colors.black,
                       size: 50,
                     ),
                     onPressed: () {
+                      //AlanSpeech();
                       setState(() {
+                        //AlanSpeech();
                         index++;
                         test();
+                        if (index == 5) {
+                          right = false;
+                        }
+                        index == 0 ? left = false : left = true;
                       });
                     },
                   ),
@@ -151,34 +156,53 @@ class _CPRState extends State<CPR> {
   }
 
   test() {
+    //AlanSpeech();
     videoPlayerController = VideoPlayerController.asset(_video[index])
       ..initialize().then((_) {
         setState(() {});
         videoPlayerController!.play();
-        videoPlayerController!.setLooping(true);
+        videoPlayerController!.setVolume(0);
+        // videoPlayerController!.setLooping(true);
       });
   }
 
   Widget run() {
+    //AlanSpeech();
     return SizedBox(
-      height: 300,
-      child: videoPlayerController!.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: videoPlayerController!.value.aspectRatio,
-              child: VideoPlayer(videoPlayerController!))
-          : Text("j"),
-    );
+        height: 300,
+        child: videoPlayerController!.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(videoPlayerController!))
+            : const FaIcon(
+                FontAwesomeIcons.spinner,
+              ));
   }
 
-  /* Widget _chewieVideoPlayer() {
-    return SizedBox(
-      height: 300,
-      child: videoPlayerController!.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: videoPlayerController!.value.aspectRatio,
-              child: VideoPlayer(videoPlayerController!),
-            )
-          : Container(),
-    );
-  }*/
+  _MyHomePageState() {
+    /// Init Alan Button with project key from Alan Studio
+    AlanVoice.addButton(
+        "5e55de6450d3616d38f815f481cda4f62e956eca572e1d8b807a3e2338fdd0dc/stage");
+
+    /// Handle commands from Alan Studio
+    AlanVoice.onCommand.add((command) {
+      // Debugs the output to the console
+
+      if (command.data['command'].toString() == "next" && index < 5) {
+        setState(() {
+          _CPRState.index++;
+          test();
+          index == 0 ? left = false : left = true;
+        });
+      } else if (command.data['command'].toString() == 'back' &&
+          index > 0 &&
+          index < 6) {
+        setState(() {
+          _CPRState.index--;
+          test();
+          index == 0 ? left = false : left = true;
+        });
+      }
+    });
+  }
 }

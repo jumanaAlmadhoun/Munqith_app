@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:munqith_app/pre_loginpage.dart';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({Key? key}) : super(key: key);
-
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
 }
@@ -13,7 +15,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   TextEditingController? textController2;
   TextEditingController? textController3;
   TextEditingController? textController4;
-
+  String? myEmail;
+  String? myName;
+  String? myPhone;
+  String? myPassword;
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -24,23 +29,38 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     'Shather',
   ];
   String dropdownvalue = 'Jumana';
+
+  Future test() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection("users")
+          .where('email', isEqualTo: firebaseUser.email)
+          .get();
+      setState(() {
+        myEmail = snap.docs[0]['email'].toString();
+        myName = "${snap.docs[0]['firstName']}  ${snap.docs[0]['lastName']}";
+        myPhone = snap.docs[0]['phone'].toString();
+        myPassword = snap.docs[0]['password'].toString();
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController(text: 'Jumana Almadhoun');
-    textController2 = TextEditingController(text: 'Jomana.alm98@gmail.com');
-    textController3 = TextEditingController(text: '0543373604');
-    textController4 = TextEditingController(text: '0543373604');
+    test();
+
     passwordVisibility = false;
   }
 
   @override
   void dispose() {
+    super.dispose();
     textController1?.dispose();
     textController2?.dispose();
     textController3?.dispose();
     textController4?.dispose();
-    super.dispose();
   }
 
   @override
@@ -65,7 +85,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               size: 35,
             ),
             onPressed: () {
-              print('IconButton pressed ...');
+              FirebaseAuth.instance.signOut();
+              FirebaseAuth.instance.userChanges();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PreLoginpageWidget()));
             },
           ),
         ],
@@ -117,13 +142,13 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: const [
+                                    children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 100, 0, 0),
-                                        child: Text('Jumana Almadhoun',
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 100, 0, 0),
+                                        child: Text(myName!,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 18,
                                             )),
                                       ),
@@ -153,7 +178,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         padding: const EdgeInsetsDirectional
                                             .fromSTEB(15, 0, 0, 0),
                                         child: TextFormField(
-                                          controller: textController1,
+                                          controller: textController1 =
+                                              TextEditingController(
+                                                  text: myName),
                                           autofocus: true,
                                           obscureText: false,
                                           decoration: const InputDecoration(
@@ -228,7 +255,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         padding: const EdgeInsetsDirectional
                                             .fromSTEB(15, 0, 0, 0),
                                         child: TextFormField(
-                                          controller: textController2,
+                                          controller: textController2 =
+                                              TextEditingController(
+                                                  text: myEmail),
                                           autofocus: true,
                                           obscureText: false,
                                           decoration: const InputDecoration(
@@ -304,7 +333,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         padding: const EdgeInsetsDirectional
                                             .fromSTEB(15, 0, 0, 0),
                                         child: TextFormField(
-                                          controller: textController3,
+                                          controller: textController3 =
+                                              TextEditingController(
+                                                  text: myPhone),
                                           autofocus: true,
                                           obscureText: false,
                                           decoration: const InputDecoration(
@@ -367,7 +398,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                       alignment:
                                           AlignmentDirectional(-0.85, -0.55),
                                       child: Text(
-                                        'Passwors:',
+                                        'Password:',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           color: Color(0xFF1EAFCD),
@@ -379,7 +410,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         padding: const EdgeInsetsDirectional
                                             .fromSTEB(15, 0, 0, 0),
                                         child: TextFormField(
-                                          controller: textController4,
+                                          controller: textController4 =
+                                              TextEditingController(
+                                                  text: myPassword),
                                           autofocus: true,
                                           obscureText: !passwordVisibility,
                                           decoration: InputDecoration(
@@ -526,5 +559,24 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         ),
       ),
     );
+  }
+
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection("users")
+          .where('email', isEqualTo: firebaseUser.email)
+          .get();
+      myEmail = snap.docs[0]['email'];
+      /*await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.email)
+          .get()
+          .then((ds) {
+        myEmail = ds.data("email");
+        print(myEmail);
+      });*/
+    }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:munqith_app/User.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../pre_loginpage.dart';
+import '../User.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -402,19 +403,62 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           final phone = phoneController!.text;
                           final email = emailController!.text;
                           final password = passwordController!.text;
-                          createUser(
-                              firstName: firstName,
-                              lastName: lastName,
-                              phone: phone,
-                              email: email,
-                              password: password);
 
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Nav(),
-                            ),
-                          );
+                          if (firstName.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("First Name  is required"),
+                            ));
+                          } else if (lastName.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Password  is required"),
+                            ));
+                          } else if (phone.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Phone  is required"),
+                            ));
+                          } else if (email.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Email  is required!"),
+                            ));
+                          } else if (password.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Password is required!"),
+                            ));
+                          } else {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(email)
+                                .get()
+                                .then(
+                                    (DocumentSnapshot documentSnapshot) async {
+                              if (documentSnapshot.exists) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content:
+                                      Text("The email is already registered"),
+                                ));
+                              } else {
+                                createUser(
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    phone: phone,
+                                    email: email,
+                                    password: password);
+
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Nav(),
+                                  ),
+                                );
+                              }
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             primary: const Color(0xFF1BB4D3),
@@ -438,14 +482,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       required String phone,
       required String email,
       required String password}) async {
+    //--------------------------------------------------------------
+    var firebaseUser = await FirebaseAuth.instance.currentUser;
     final docUser = FirebaseFirestore.instance.collection('users').doc(email);
-    final user = User(
+    var user = User_(
         firstName: firstName,
         lastName: lastName,
         phone: phone,
         email: email,
         password: password);
-
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
     await docUser.set(user.toJson());
   }
 }

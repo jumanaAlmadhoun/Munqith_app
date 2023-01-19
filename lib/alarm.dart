@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'CPR.dart';
+import 'Nav.dart';
+
 class AlarmWidget extends StatefulWidget {
   const AlarmWidget({Key? key}) : super(key: key);
 
@@ -38,15 +41,20 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Align(
+                        Align(
                           alignment: AlignmentDirectional(0.95, 0),
                           child: Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 24,
+                            child: IconButton(
+                              icon: Icon(Icons.close,
+                                  color: Colors.white, size: 24),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Nav()));
+                              },
                             ),
                           ),
                         ),
@@ -126,7 +134,10 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                               height: 50,
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  print('Button pressed ...');
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const CPR()));
                                 },
                                 style: OutlinedButton.styleFrom(
                                     side: const BorderSide(

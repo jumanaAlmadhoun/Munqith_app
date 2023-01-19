@@ -1,11 +1,11 @@
-class User {
+class User_ {
   final String firstName;
   final String lastName;
   final String phone;
   final String email;
   final String password;
 
-  User(
+  User_(
       {required this.firstName,
       required this.lastName,
       required this.phone,
@@ -20,7 +20,7 @@ class User {
         'password': password
       };
 
-  static User fromJson(Map<String, dynamic> json) => User(
+  static User_ fromJson(Map<String, dynamic> json) => User_(
       firstName: json['firstName'],
       lastName: json['lastName'],
       phone: json['phone'],

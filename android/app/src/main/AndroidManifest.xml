@@ -2,7 +2,7 @@
     package="com.example.munqith_app">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="munqith_app"
+        android:label="MUNQITH"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
