@@ -20,7 +20,7 @@ class _SplashPageWidgetState extends State<SplashPageWidget> {
   }
 
   _navigateToNextScreen() {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 3500), () {
       Widget nextPage = FirebaseAuth.instance.currentUser == null
           ? const PreLoginPage()
           : const NavigationPage();

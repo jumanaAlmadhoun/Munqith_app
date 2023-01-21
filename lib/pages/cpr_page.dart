@@ -182,7 +182,6 @@ class _CPRPageState extends State<CPRPage> {
       ..initialize().then((_) {
         setState(() {});
         videoPlayerController!.play();
-        videoPlayerController!.setVolume(0);
         // videoPlayerController!.setLooping(true);
       });
   }

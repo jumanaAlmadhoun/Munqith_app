@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:munqith_app/pages/pre_login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -58,8 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(const Duration(seconds: 2), () {});
-
     return myName != null
         ? SafeArea(
             child: Stack(
@@ -72,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0, 1.01),
+                  alignment: const AlignmentDirectional(0, 0),
                   child: Container(
                     margin: const EdgeInsets.only(top: 80.0),
                     width: MediaQuery.of(context).size.width,
@@ -85,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.15, 0.1),
+                      alignment: const AlignmentDirectional(0.15, -0.19),
                       child: SingleChildScrollView(
                         primary: false,
                         child: Center(
@@ -108,15 +105,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 100, 0, 0),
-                                          child: Text(myName!,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                              )),
-                                        ),
+                                        Text(myName!,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                            )),
                                       ],
                                     ),
                                   ),
@@ -526,7 +519,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Align(
                   alignment: const AlignmentDirectional(0, -0.95),
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 120),
                     width: 150,
                     height: 150,
                     clipBehavior: Clip.antiAlias,
