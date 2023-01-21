@@ -1,15 +1,16 @@
-import '../CreateAccount.dart';
-import '../login.dart';
+import 'package:munqith_app/pages/login_page.dart';
+
+import 'sign_up_page.dart';
 import 'package:flutter/material.dart';
 
-class PreLoginpageWidget extends StatefulWidget {
-  const PreLoginpageWidget({Key? key}) : super(key: key);
+class PreLoginPage extends StatefulWidget {
+  const PreLoginPage({Key? key}) : super(key: key);
 
   @override
-  _PreLoginpageWidgetState createState() => _PreLoginpageWidgetState();
+  State<PreLoginPage> createState() => _PreLoginPageState();
 }
 
-class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
+class _PreLoginPageState extends State<PreLoginPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -21,7 +22,7 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(80, 0, 0, 0),
+          padding: const EdgeInsetsDirectional.fromSTEB(80, 0, 0, 0),
           child: Image.asset(
             'assets/images/MONQITH.png',
             width: 200,
@@ -29,7 +30,7 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
             fit: BoxFit.cover,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: false,
         elevation: 2,
       ),
@@ -39,7 +40,7 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: Column(
@@ -48,7 +49,7 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                   child: SizedBox(
                     width: 330, // <-- Your width
                     height: 50,
@@ -57,13 +58,14 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
                         await Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginWidget(),
+                            builder: (context) => const LoginPage(),
                           ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF1BB4D3), shape: StadiumBorder()),
-                      child: Text('Log in'),
+                          backgroundColor: const Color(0xFF1BB4D3),
+                          shape: const StadiumBorder()),
+                      child: const Text('Log in'),
                     ),
                   ),
                 ),
@@ -75,13 +77,14 @@ class _PreLoginpageWidgetState extends State<PreLoginpageWidget> {
                       await Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateAccountWidget(),
+                          builder: (context) => const SignUpPage(),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF5B5F67), shape: StadiumBorder()),
-                    child: Text('Sign up'),
+                        backgroundColor: const Color(0xFF5B5F67),
+                        shape: const StadiumBorder()),
+                    child: const Text('Sign up'),
                   ),
                 )
               ],

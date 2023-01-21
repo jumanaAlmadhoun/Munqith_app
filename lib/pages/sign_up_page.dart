@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../pre_loginpage.dart';
-import '../User.dart';
+import 'package:munqith_app/pages/navigation_page.dart';
+import 'package:munqith_app/pages/pre_login_page.dart';
+import '../models/user_account.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'Nav.dart';
-
-class CreateAccountWidget extends StatefulWidget {
-  const CreateAccountWidget({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  _CreateAccountWidgetState createState() => _CreateAccountWidgetState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _CreateAccountWidgetState extends State<CreateAccountWidget> {
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController? firstNameController1;
   TextEditingController? lastNameController;
   TextEditingController? phoneController;
@@ -61,7 +59,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PreLoginpageWidget(),
+                  builder: (context) => const PreLoginPage(),
                 ),
               );
             },
@@ -453,7 +451,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Nav(),
+                                    builder: (context) =>
+                                        const NavigationPage(),
                                   ),
                                 );
                               }
@@ -461,7 +460,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF1BB4D3),
+                            backgroundColor: const Color(0xFF1BB4D3),
                             shape: const StadiumBorder()),
                         child: const Text('Sign up'),
                       ),
@@ -483,9 +482,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       required String email,
       required String password}) async {
     //--------------------------------------------------------------
-    var firebaseUser = await FirebaseAuth.instance.currentUser;
     final docUser = FirebaseFirestore.instance.collection('users').doc(email);
-    var user = User_(
+    var user = UserAccount(
         firstName: firstName,
         lastName: lastName,
         phone: phone,

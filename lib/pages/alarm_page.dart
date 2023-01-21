@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:munqith_app/pages/navigation_page.dart';
 
-import 'CPR.dart';
-import 'Nav.dart';
+import 'cpr_page.dart';
 
-class AlarmWidget extends StatefulWidget {
-  const AlarmWidget({Key? key}) : super(key: key);
+class AlarmPage extends StatefulWidget {
+  const AlarmPage({Key? key}) : super(key: key);
 
   @override
-  _AlarmWidgetState createState() => _AlarmWidgetState();
+  State<AlarmPage> createState() => _AlarmPageState();
 }
 
-class _AlarmWidgetState extends State<AlarmWidget> {
+class _AlarmPageState extends State<AlarmPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -42,18 +42,19 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Align(
-                          alignment: AlignmentDirectional(0.95, 0),
+                          alignment: const AlignmentDirectional(0.95, 0),
                           child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 10, 0),
                             child: IconButton(
-                              icon: Icon(Icons.close,
+                              icon: const Icon(Icons.close,
                                   color: Colors.white, size: 24),
                               onPressed: () {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Nav()));
+                                        builder: (context) =>
+                                            const NavigationPage()));
                               },
                             ),
                           ),
@@ -122,7 +123,7 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                                         "+997");
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      primary: const Color(0xFFBE0815),
+                                      backgroundColor: const Color(0xFFBE0815),
                                       shape: const StadiumBorder()),
                                   icon: const Icon(Icons.call),
                                   label: const Text('Call Authorities'),
@@ -137,7 +138,8 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const CPR()));
+                                          builder: (context) =>
+                                              const CPRPage()));
                                 },
                                 style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -147,7 +149,7 @@ class _AlarmWidgetState extends State<AlarmWidget> {
                                     ),
                                     shape: const StadiumBorder()),
                                 icon: const FaIcon(
-                                  FontAwesomeIcons.heartbeat,
+                                  FontAwesomeIcons.heartPulse,
                                   color: Color(0xFFBE0815),
                                 ),
                                 label: const Text('CPR Instriction',

@@ -1,24 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:munqith_app/profile.dart';
+import 'package:munqith_app/pages/navigation_page.dart';
+import 'package:munqith_app/pages/pre_login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../pre_loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'Nav.dart';
-import 'User.dart';
-
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
-  TextEditingController? EmailController;
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController? emailController;
   TextEditingController? textController2;
 
   late bool passwordVisibility;
@@ -28,14 +25,14 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
-    EmailController = TextEditingController();
+    emailController = TextEditingController();
     textController2 = TextEditingController();
     passwordVisibility = false;
   }
 
   @override
   void dispose() {
-    EmailController?.dispose();
+    emailController?.dispose();
     textController2?.dispose();
     super.dispose();
   }
@@ -49,13 +46,13 @@ class _LoginWidgetState extends State<LoginWidget> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: Align(
-          alignment: AlignmentDirectional(0.15, 0),
+          alignment: const AlignmentDirectional(0.15, 0),
           child: InkWell(
             onTap: () async {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PreLoginpageWidget(),
+                  builder: (context) => const PreLoginPage(),
                 ),
               );
             },
@@ -75,7 +72,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             fit: BoxFit.cover,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: false,
         elevation: 2,
       ),
@@ -97,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: SizedBox(
                     width: 350,
                     child: TextFormField(
-                      controller: EmailController,
+                      controller: emailController,
                       autofocus: true,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -153,7 +150,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: ElevatedButton(
                     onPressed: () async {
                       FocusScope.of(context).unfocus();
-                      final email = EmailController!.text.trim();
+                      final email = emailController!.text.trim();
                       final password = textController2!.text.trim();
 
                       if (email.isEmpty) {
@@ -185,7 +182,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Nav()));
+                                      builder: (context) =>
+                                          const NavigationPage()));
                             });
                           } else {
                             ScaffoldMessenger.of(context)
@@ -214,7 +212,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF1BB4D3),
+                        backgroundColor: const Color(0xFF1BB4D3),
                         shape: const StadiumBorder()),
                     child: const Text('Log in'),
                   ),
