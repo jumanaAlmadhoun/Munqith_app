@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../pre_loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'Nav.dart';
 
 class LoadPageWidget extends StatefulWidget {
   const LoadPageWidget({Key? key}) : super(key: key);
@@ -38,7 +42,10 @@ class _LoadPageWidgetState extends State<LoadPageWidget> {
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PreLoginpageWidget(),
+                  builder: (context) =>
+                      FirebaseAuth.instance.currentUser == null
+                          ? const PreLoginpageWidget()
+                          : Nav(),
                 ),
                 (r) => false,
               );

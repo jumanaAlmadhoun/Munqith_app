@@ -14,7 +14,7 @@ class _NavState extends State<Nav> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const HomeWidget(),
-    const Text('Everyone is safe! No drowning incident was detected'),
+    const ProfileWidget(),
     const CPR(),
     const ProfileWidget(),
   ];
@@ -29,13 +29,7 @@ class _NavState extends State<Nav> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-            child: SizedBox(
-          height: 2000,
-          child: Flexible(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
-        )),
+        body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

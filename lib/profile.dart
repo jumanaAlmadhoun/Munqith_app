@@ -685,6 +685,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               )
             : Container(
                 color: Colors.white,
+                child: CircularProgressIndicator(),
               ));
   }
 }
