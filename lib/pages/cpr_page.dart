@@ -37,7 +37,7 @@ class _CPRPageState extends State<CPRPage> {
   @override
   void initState() {
     super.initState();
-    test();
+    runVedio();
     runVoiceRecognition();
   }
 
@@ -45,6 +45,7 @@ class _CPRPageState extends State<CPRPage> {
   void dispose() {
     videoPlayerController!.dispose();
     super.dispose();
+    AlanVoice.hideButton();
   }
 
   Widget run() {
@@ -61,8 +62,12 @@ class _CPRPageState extends State<CPRPage> {
 
   runVoiceRecognition() {
     /// Init Alan Button with project key from Alan Studio
-    AlanVoice.addButton(
-        "5e55de6450d3616d38f815f481cda4f62e956eca572e1d8b807a3e2338fdd0dc/stage");
+    if (!mounted) {
+      setState(() {
+        AlanVoice.addButton(
+            "5e55de6450d3616d38f815f481cda4f62e956eca572e1d8b807a3e2338fdd0dc/stage");
+      });
+    }
 
     /// Handle commands from Alan Studio
     AlanVoice.onCommand.add((command) {
@@ -71,7 +76,7 @@ class _CPRPageState extends State<CPRPage> {
       if (command.data['command'].toString() == "next" && index < 5) {
         setState(() {
           _CPRPageState.index++;
-          test();
+          runVedio();
           index == 0 ? left = false : left = true;
         });
       } else if (command.data['command'].toString() == 'back' &&
@@ -79,7 +84,7 @@ class _CPRPageState extends State<CPRPage> {
           index < 6) {
         setState(() {
           _CPRPageState.index--;
-          test();
+          runVedio();
           index == 0 ? left = false : left = true;
         });
       }
@@ -145,7 +150,7 @@ class _CPRPageState extends State<CPRPage> {
                   onPressed: () {
                     setState(() {
                       index--;
-                      test();
+                      runVedio();
                       index == 0 ? left = false : left = true;
                     });
                   },
@@ -162,7 +167,7 @@ class _CPRPageState extends State<CPRPage> {
                   setState(() {
                     //AlanSpeech();
                     index++;
-                    test();
+                    runVedio();
                     if (index == 5) {
                       right = false;
                     }
@@ -177,7 +182,7 @@ class _CPRPageState extends State<CPRPage> {
     ]);
   }
 
-  test() {
+  runVedio() {
     videoPlayerController = VideoPlayerController.asset(_video[index])
       ..initialize().then((_) {
         setState(() {});

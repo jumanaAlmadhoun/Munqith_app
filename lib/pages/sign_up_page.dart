@@ -445,7 +445,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     firstName: firstName,
                                     lastName: lastName,
                                     phone: phone,
-                                    email: email,
+                                    email: email.toLowerCase(),
                                     password: password);
 
                                 await Navigator.push(
@@ -483,6 +483,10 @@ class _SignUpPageState extends State<SignUpPage> {
       required String password}) async {
     //--------------------------------------------------------------
     final docUser = FirebaseFirestore.instance.collection('users').doc(email);
+    FirebaseFirestore.instance
+        .collection('history')
+        .doc(email)
+        .set({"NumOfIncident": 0, "email": email});
     var user = UserAccount(
         firstName: firstName,
         lastName: lastName,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:munqith_app/pages/navigation_page.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'cpr_page.dart';
 
@@ -14,6 +15,23 @@ class AlarmPage extends StatefulWidget {
 
 class _AlarmPageState extends State<AlarmPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  play() async {
+    if (!mounted) {
+      return setState(() {
+        AssetsAudioPlayer.newPlayer().open(
+          Audio("assets/audios/Alarm.mp3"),
+          autoStart: true,
+        );
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    play();
+  }
 
   @override
   Widget build(BuildContext context) {

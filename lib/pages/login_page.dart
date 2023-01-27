@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+//-------------------------------------------------------
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
@@ -224,12 +225,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  /*Future signIn({required String email, required String password}) async {
-    Stream<List<User>> readUsers() => FirebaseFirestore.instance
-        .collection('users')
-        .snapshots()
-        .map((snapshots) =>
-            snapshots.docs.map((doc) => User.fromJson(doc.data())).toList());
-  }*/
 }

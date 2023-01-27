@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
   String dropdownvalue = 'Jumana';
 
-  Future test() async {
+  Future userInfo() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
 
     if (firebaseUser != null) {
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    test();
+    userInfo();
     passwordVisibility = false;
   }
 

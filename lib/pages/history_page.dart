@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:munqith_app/pages/navigation_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../widgets/history_card.dart';
+import 'incidents.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -9,64 +13,38 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  List<Object> _historylist = [];
+  Future getUserIncidents() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser?.email;
+    var data = await FirebaseFirestore.instance
+        .collection('history')
+        .doc(firebaseUser)
+        .collection('incidents')
+        .orderBy("Date", descending: true)
+        .get();
+    setState(() {
+      _historylist =
+          List.from(data.docs.map((doc) => Incidents.fromSnapshot(doc)));
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getUserIncidents();
+  }
+
+//------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1EAFCD),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            width: double.infinity,
-            height: 30,
-            decoration: const BoxDecoration(
-              color: Color(0xFF1EAFCD),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0),
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                ),
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.white,
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Align(
-                        alignment: AlignmentDirectional(-0.05, 0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(20, 20, 0, 8),
-                          child: Text(
-                            'History Page',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+    return Scaffold(
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: _historylist.length,
+          itemBuilder: (context, index) {
+            return HistoryCard(_historylist[index] as Incidents);
+          },
+        ),
       ),
     );
   }
