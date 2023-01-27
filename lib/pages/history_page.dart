@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/incidents.dart';
 import '../widgets/history_card.dart';
-import 'incidents.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -37,15 +37,30 @@ class _HistoryPageState extends State<HistoryPage> {
 //------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: _historylist.length,
-          itemBuilder: (context, index) {
-            return HistoryCard(_historylist[index] as Incidents);
-          },
-        ),
-      ),
-    );
+    return _historylist.isEmpty
+        ? Container(
+            color: Colors.white,
+            child: Center(
+                child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+              child: Text(
+                "No drowning case has been determined! Everyone is safe",
+                style: Theme.of(context).textTheme.titleMedium,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            )),
+          )
+        : Scaffold(
+            body: SafeArea(
+              child: ListView.builder(
+                itemCount: _historylist.length,
+                itemBuilder: (context, index) {
+                  return HistoryCard(_historylist[index] as Incidents);
+                },
+              ),
+            ),
+          );
   }
 }

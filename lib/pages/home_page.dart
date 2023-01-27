@@ -213,6 +213,18 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Image.asset(
+                        'assets/images/mun.png',
+                        width: 390,
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  )
+                  /* Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Container(
                         width: 350,
                         height: 130,
@@ -244,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
-                  ),
+                  ),*/
                 ],
               ),
             ),
