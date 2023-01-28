@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/incidents.dart';
+import '../models/Incidents.dart';
 import '../widgets/history_card.dart';
 
 class HistoryPage extends StatefulWidget {

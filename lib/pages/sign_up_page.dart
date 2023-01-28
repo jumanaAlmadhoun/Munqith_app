@@ -483,10 +483,8 @@ class _SignUpPageState extends State<SignUpPage> {
       required String password}) async {
     //--------------------------------------------------------------
     final docUser = FirebaseFirestore.instance.collection('users').doc(email);
-    FirebaseFirestore.instance
-        .collection('history')
-        .doc(email)
-        .set({"NumOfIncident": 0, "email": email});
+    final docHistory =
+        FirebaseFirestore.instance.collection('history').doc(email);
     var user = UserAccount(
         firstName: firstName,
         lastName: lastName,
@@ -496,5 +494,6 @@ class _SignUpPageState extends State<SignUpPage> {
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
     await docUser.set(user.toJson());
+    await docHistory.set({"NumOfIncident": 0, "email": email});
   }
 }

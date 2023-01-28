@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/incidents.dart';
+import '../models/Incidents.dart';
 
 class HistoryCard extends StatelessWidget {
   final Incidents _incidents;
@@ -33,7 +33,7 @@ class HistoryCard extends StatelessWidget {
                 children: const [
                   Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
-                      child: Text("Drowning incident detected",
+                      child: Text("Drowning incident detected:",
                           style: TextStyle(
                               color: Color(0xFF1EAFCD),
                               fontSize: 15,
