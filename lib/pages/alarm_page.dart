@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:munqith_app/pages/cpr.dart';
 import 'package:munqith_app/pages/navigation_page.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-
-import 'cpr_page.dart';
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({Key? key}) : super(key: key);
@@ -17,14 +16,12 @@ class _AlarmPageState extends State<AlarmPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   play() async {
-    if (!mounted) {
-      return setState(() {
-        AssetsAudioPlayer.newPlayer().open(
-          Audio("assets/audios/Alarm.mp3"),
-          autoStart: true,
-        );
-      });
-    }
+    return setState(() {
+      AssetsAudioPlayer.newPlayer().open(
+        Audio("assets/audios/Alarm.mp3"),
+        autoStart: true,
+      );
+    });
   }
 
   @override
@@ -56,7 +53,7 @@ class _AlarmPageState extends State<AlarmPage> {
                       color: Color(0xFFBE0815),
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Align(
@@ -120,8 +117,8 @@ class _AlarmPageState extends State<AlarmPage> {
                         ),
                         shape: BoxShape.rectangle,
                         border: Border.all(
-                          color: Colors.white,
-                        ),
+                            color: Colors.white,
+                            strokeAlign: BorderSide.strokeAlignOutside),
                       ),
                       child: SingleChildScrollView(
                         child: Column(
@@ -156,8 +153,7 @@ class _AlarmPageState extends State<AlarmPage> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CPRPage()));
+                                          builder: (context) => Test()));
                                 },
                                 style: OutlinedButton.styleFrom(
                                     side: const BorderSide(

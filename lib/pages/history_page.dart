@@ -37,6 +37,12 @@ class _HistoryPageState extends State<HistoryPage> {
 //------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+    Container(
+      color: Colors.white,
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
     return _historylist.isEmpty
         ? Container(
             color: Colors.white,
