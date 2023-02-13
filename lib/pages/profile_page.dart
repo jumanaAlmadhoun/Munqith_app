@@ -22,14 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
   late bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  var items = [
-    'Jumana',
-    'Raneem',
-    'Nojood',
-    'Shather',
-  ];
-  String dropdownvalue = 'Jumana';
-
   Future userInfo() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -218,6 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(15, 0, 0, 0),
                                           child: TextFormField(
+                                            enabled: false,
+                                            focusNode: FocusNode(),
                                             controller: textController2 =
                                                 TextEditingController(
                                                     text: myEmail),
@@ -465,45 +459,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15, 0, 15, 30),
+                                      0, 0, 0, 0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Align(
-                                        alignment:
-                                            AlignmentDirectional(-0.85, -0.55),
-                                        child: Text(
-                                          'Alarm Sound:',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            color: Color(0xFF1EAFCD),
-                                          ),
+                                      Align(
+                                        alignment: const AlignmentDirectional(
+                                            -0.85, -0.55),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            var name = textController1!.text
+                                                .split(' ');
+                                            final firebaseUser = FirebaseAuth
+                                                .instance.currentUser;
+                                            var collection = FirebaseFirestore
+                                                .instance
+                                                .collection('users');
+                                            collection
+                                                .doc(firebaseUser!.email)
+                                                .update({
+                                              'firstName': name[0],
+                                              'lastName': name[1],
+                                              'password': textController4!.text,
+                                              'phone': textController3!.text
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xFF1EAFCD),
+                                              shape: const StadiumBorder()),
+                                          child: const Text('Update'),
                                         ),
-                                      ),
-                                      DropdownButton(
-                                        // Initial Value
-                                        value: dropdownvalue.isNotEmpty
-                                            ? dropdownvalue
-                                            : null,
-
-                                        // Down Arrow Icon
-                                        icon: const Icon(
-                                            Icons.keyboard_arrow_down),
-
-                                        // Array list of items
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        // After selecting the desired option,it will
-                                        // change button value to selected value
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
-                                        },
                                       ),
                                     ],
                                   ),

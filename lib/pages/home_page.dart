@@ -248,8 +248,8 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: InkWell(
-                            onTap: () {
-                              updateDatabase();
+                            onTap: () async {
+                      
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
